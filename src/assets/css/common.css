@@ -1,0 +1,26 @@
+/* flex 横向 - 纵向 */
+.center-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.start-center{
+    display: flex;
+    justify-content:flex-start;
+    align-items: center;
+}
+.end-center{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.center-start{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+.center-end{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
