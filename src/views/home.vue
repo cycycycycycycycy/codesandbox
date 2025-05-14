@@ -2,52 +2,106 @@
   <div class="home-container">
     <!-- 侧边菜单，带有玻璃拟态和动态高光效果 -->
     <aside class="menu glassmorphism">
+      <!-- 搜索框 - 固定在头部 -->
       <div
-        v-for="(item, idx) in menuItems"
-        :key="item.name"
-        class="menu-item"
-        :class="{ active: currentComponent === item.name }"
-        @click="selectComponent(item.name)"
-        tabindex="0"
-        @keydown.enter="selectComponent(item.name)"
-        :aria-label="item.label"
+        class="search-container fixed-header"
+        @mouseenter="onSearchFocus"
+        @mouseleave="onSearchBlur"
       >
-        <div class="menu-icon-wrapper">
-          <!-- 图标变成长方形，带有高级渐变和阴影 -->
-          <img :src="item.icon" :alt="item.alt" class="rect-icon" />
-          <span
-            v-if="currentComponent === item.name"
-            class="menu-glow-rect"
-          ></span>
-          <svg
-            v-if="currentComponent === item.name"
-            class="menu-active-rect"
-            width="90"
-            height="70"
-          >
-            <rect
-              x="7"
-              y="7"
-              rx="18"
-              ry="18"
-              width="76"
-              height="56"
-              stroke="#3a7bd5"
-              stroke-width="4"
-              fill="none"
-              stroke-dasharray="260"
-              stroke-dashoffset="0"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                values="260;0;260"
-                dur="2s"
-                repeatCount="indefinite"
-              />
-            </rect>
-          </svg>
+        <!-- 默认状态显示搜索图标 -->
+        <div
+          v-if="!isSearchFocused"
+          class="search-icon-default"
+          @click="onSearchFocus"
+          style="
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <img
+            src="@/assets/img/query.png"
+            style="width: 45px; height: 45px"
+            alt=""
+          />
         </div>
-        <span class="menu-label">{{ item.label }}</span>
+
+        <!-- 鼠标移入后显示完整输入框 -->
+
+        <transition name="el-zoom-in-top" v-if="isSearchFocused">
+          <el-input
+            v-model="searchQuery"
+            placeholder="搜索组件..."
+            class="search-input"
+            @focus="onSearchFocus"
+            @blur="onSearchBlur"
+            @input="handleSearchInput"
+            clearable
+            size="large"
+          >
+            <template #prefix>
+              <el-icon class="search-icon search-icon-active">
+                <Search />
+              </el-icon>
+            </template>
+          </el-input>
+        </transition>
+
+        <div
+          class="search-glow"
+          :class="{ 'search-glow-active': isSearchFocused }"
+        ></div>
+      </div>
+
+      <!-- 菜单项容器 - 可滚动部分 -->
+      <div class="menu-items-container">
+        <div
+          v-for="(item, idx) in filteredMenuItems"
+          :key="item.name"
+          class="menu-item"
+          :class="{ active: currentComponent === item.name }"
+          @click="selectComponent(item.name)"
+          tabindex="0"
+          @keydown.enter="selectComponent(item.name)"
+          :aria-label="item.label"
+        >
+          <div class="menu-icon-wrapper">
+            <img :src="item.icon" :alt="item.alt" class="rect-icon" />
+            <span
+              v-if="currentComponent === item.name"
+              class="menu-glow-rect"
+            ></span>
+            <svg
+              v-if="currentComponent === item.name"
+              class="menu-active-rect"
+              width="90"
+              height="70"
+            >
+              <rect
+                x="7"
+                y="7"
+                rx="18"
+                ry="18"
+                width="76"
+                height="56"
+                stroke="#3a7bd5"
+                stroke-width="4"
+                fill="none"
+                stroke-dasharray="260"
+                stroke-dashoffset="0"
+              >
+                <animate
+                  attributeName="stroke-dashoffset"
+                  values="260;0;260"
+                  dur="2s"
+                  repeatCount="indefinite"
+                />
+              </rect>
+            </svg>
+          </div>
+          <span class="menu-label">{{ item.label }}</span>
+        </div>
       </div>
     </aside>
     <main class="content">
@@ -64,7 +118,8 @@
 </template>
 
 <script setup>
-import { ref, nextTick } from "vue";
+import { ref, nextTick, computed } from "vue";
+import { Search } from "@element-plus/icons-vue";
 import tcplayerImg from "@/assets/img/tcplayer.png";
 import tcplayer from "@/views/Com/tcplayer/tcplayer.vue";
 import echart_map_line from "@/views/Com/echart_map_line/echart_map_line.vue";
@@ -79,7 +134,11 @@ import year_round from "@/views/Com/year_round/year_round.vue";
 import year_roundImg from "@/assets/img/year_round.png";
 import TMap from "@/views/Com/TMap/TMap.vue";
 import TMapImg from "@/assets/img/TMap.png";
+
 const showComponent = ref(true);
+const queryParams = ref("");
+const searchQuery = ref("");
+const isSearchFocused = ref(false);
 const ComList = {
   tcplayer,
   echart_map_line,
@@ -89,7 +148,7 @@ const ComList = {
   year_round,
   TMap,
 };
-// 菜单项配置，后续可扩展为动态加载
+
 const menuItems = [
   {
     name: "TMap",
@@ -137,10 +196,17 @@ const menuItems = [
 
 const currentComponent = ref("TMap");
 
-// 切换菜单项
+const filteredMenuItems = computed(() => {
+  if (!searchQuery.value) return menuItems;
+  return menuItems.filter(
+    (item) =>
+      item.label.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      item.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
+
 const selectComponent = (component) => {
   if (component === currentComponent.value) return;
-
   showComponent.value = false;
   nextTick(() => {
     if (currentComponent.value !== component) {
@@ -148,6 +214,21 @@ const selectComponent = (component) => {
       showComponent.value = true;
     }
   });
+};
+
+const onSearchFocus = () => {
+  isSearchFocused.value = true;
+};
+
+const onSearchBlur = () => {
+  isSearchFocused.value = false;
+};
+
+const handleSearchInput = () => {
+  const menuContainer = document.querySelector(".menu-items-container");
+  if (menuContainer) {
+    menuContainer.scrollTop = 0;
+  }
 };
 </script>
 
@@ -164,7 +245,6 @@ const selectComponent = (component) => {
   background: rgba(34, 38, 48, 0.92);
   box-shadow: 0 16px 64px 0 rgba(44, 130, 201, 0.22), 0 1.5px 0 0 #232a36 inset;
   border-radius: 48px;
-  /* padding: 64px 96px; */
   width: calc(100% - 80px);
   height: calc(100% - 120px);
   display: flex;
@@ -186,23 +266,53 @@ const selectComponent = (component) => {
 
 .menu {
   width: 280px;
-
-  padding: 50px 0 0 0;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  padding: 86px 0 26px 0;
   border-top-right-radius: 48px;
   border-bottom-right-radius: 48px;
   position: relative;
   z-index: 2;
   border-right: 2px solid #232a36;
   transition: box-shadow 0.3s;
-  /* 让菜单项可以上下滚动，但左右不裁剪 */
+  overflow: hidden;
+}
+
+.search-container {
+  position: relative;
+  margin: 0 20px;
+  padding: 20px 0 10px;
+  background: inherit;
+  z-index: 3;
+}
+
+.search-container.fixed-header {
+  position: sticky;
+  top: 0;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  background: rgba(28, 32, 40, 0.82);
+  backdrop-filter: blur(18px) saturate(1.2);
+}
+
+.menu-items-container {
   overflow-y: auto;
-  overflow-x: visible;
-  /* 为了更好的体验，可以设置最大高度，防止撑满整个页面 */
-  max-height: 100vh;
+  flex: 1;
+  padding-bottom: 20px;
+}
+
+.search-input {
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s cubic-bezier(0.4, 2, 0.6, 1);
+}
+
+.search-input :deep(.el-input__wrapper) {
+  background: rgba(34, 38, 48, 0.6);
+  border: 2px solid rgba(58, 123, 213, 0.2);
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(44, 130, 201, 0.15), 0 0 0 1px #232a36 inset;
+  transition: all 0.3s cubic-bezier(0.4, 2, 0.6, 1);
+  padding: 0 20px;
 }
 
 .menu-item {
@@ -210,7 +320,7 @@ const selectComponent = (component) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 12px 20px;
+  margin: 20px 20px;
   padding: 28px 0 18px 0;
   border-radius: 28px;
   cursor: pointer;
@@ -360,6 +470,20 @@ const selectComponent = (component) => {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+</style>
+<style lang="less">
+.menu {
+  .el-input__wrapper {
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: none;
+  }
+  .el-input__inner {
+    color: #fff !important;
+  }
+  .el-input__wrapper:hover {
+    background-color: rgba(0, 0, 0, 0);
   }
 }
 </style>

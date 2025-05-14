@@ -65,7 +65,7 @@ onMounted(() => {
   comTMapRef.value.mapLabel({
     latlng: [116.420837, 39.952395], //	标签位置
     text: `我是天地图组件`, //显示文字
-    offset: [0, 50], //偏移量
+    offset: [0, 0], //偏移量
   });
 });
 
