@@ -75,6 +75,8 @@ import tooltip from "@/views/Com/tooltip/tooltip.vue";
 import tooltipImg from "@/assets/img/tooltip.png";
 import year_transverse from "@/views/Com/year_transverse/year_transverse.vue";
 import year_transverseImg from "@/assets/img/year_transverse.png";
+import year_round from "@/views/Com/year_round/year_round.vue";
+import year_roundImg from "@/assets/img/year_round.png";
 const showComponent = ref(true);
 const ComList = {
   tcplayer,
@@ -82,6 +84,7 @@ const ComList = {
   videojs,
   tooltip,
   year_transverse,
+  year_round,
 };
 // 菜单项配置，后续可扩展为动态加载
 const menuItems = [
@@ -115,6 +118,12 @@ const menuItems = [
     icon: year_transverseImg,
     alt: "year_transverse",
     label: "year_transverse",
+  },
+  {
+    name: "year_round",
+    icon: year_roundImg,
+    alt: "year_round",
+    label: "year_round",
   },
 ];
 
