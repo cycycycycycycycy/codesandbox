@@ -6,7 +6,6 @@ const app = createApp(App);
 app.use(router);
 import router from '@/router';
 
-
 // 启用快捷css
 // import '@/assets/css/common.css'
 
@@ -25,7 +24,9 @@ app.use(ElementPlus, {
 for (const name in ElementPlusIconsVue) {
     app.component(name, ElementPlusIconsVue[name])
 }
+import TMap from 'component-tmap'
 
+app.use(TMap)
 
 //使用状态管理
 import pinia from './store'

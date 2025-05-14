@@ -77,6 +77,8 @@ import year_transverse from "@/views/Com/year_transverse/year_transverse.vue";
 import year_transverseImg from "@/assets/img/year_transverse.png";
 import year_round from "@/views/Com/year_round/year_round.vue";
 import year_roundImg from "@/assets/img/year_round.png";
+import TMap from "@/views/Com/TMap/TMap.vue";
+import TMapImg from "@/assets/img/TMap.png";
 const showComponent = ref(true);
 const ComList = {
   tcplayer,
@@ -85,14 +87,15 @@ const ComList = {
   tooltip,
   year_transverse,
   year_round,
+  TMap,
 };
 // 菜单项配置，后续可扩展为动态加载
 const menuItems = [
   {
-    name: "echart_map_line",
-    icon: echart_map_lineImg,
-    alt: "echart_map_line",
-    label: "echart_map_line",
+    name: "TMap",
+    icon: TMapImg,
+    alt: "TMap",
+    label: "TMap",
   },
   {
     name: "tcplayer",
@@ -106,7 +109,12 @@ const menuItems = [
     alt: "videojs",
     label: "videojs",
   },
-
+  {
+    name: "echart_map_line",
+    icon: echart_map_lineImg,
+    alt: "echart_map_line",
+    label: "echart_map_line",
+  },
   {
     name: "tooltip",
     icon: tooltipImg,
@@ -127,7 +135,7 @@ const menuItems = [
   },
 ];
 
-const currentComponent = ref("echart_map_line");
+const currentComponent = ref("TMap");
 
 // 切换菜单项
 const selectComponent = (component) => {
