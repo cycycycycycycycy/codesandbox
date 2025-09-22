@@ -3,11 +3,13 @@ import JSONBIG from 'json-bigint'
 
 axios.defaults.transformResponse = [
   function (data) {
-    const json = JSONBIG({
-      storeAsString: true
-    })
-    const res = json.parse(data)
-    return res
+    // const json = JSONBIG({
+    //   storeAsString: true
+    // })
+    // const res = json.parse(data)
+    // return res
+
+    return data
   }
 ]
 class zybw {

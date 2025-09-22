@@ -1,11 +1,33 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
+import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
+import cesium from 'vite-plugin-cesium'
 // https://vitejs.dev/config/
 export default defineConfig({
+  // 强制预构建插件包
+  optimizeDeps: {
+    include: [
+      `monaco-editor/esm/vs/language/json/json.worker`,
+      `monaco-editor/esm/vs/language/css/css.worker`,
+      `monaco-editor/esm/vs/language/html/html.worker`,
+      `monaco-editor/esm/vs/language/typescript/ts.worker`,
+      `monaco-editor/esm/vs/editor/editor.worker`
+    ],
+  },
+
+  resolve: {
+    alias: {
+      "@antv/g6": path.resolve("./node_modules/@antv/g6/dist/g6.js"),
+    },
+  },
   base: "vite",
   transpileDependencies: true,
-  plugins: [vue()],
+  plugins: [vue(), viteCommonjs(),
+  cesium()],
+  optimizeDeps: {
+    exclude: ['cesium']
+  },
   define: {
     "process.env": process.env
   },
@@ -24,12 +46,20 @@ export default defineConfig({
     https: false,
     // 设置反向代理，跨域
     proxy: {
+      "/v1/api": {
+
+        target: "http://36.105.164.5:27893/",
+
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/v1/, "")
+      },
       "/v1": {
         // 后台地址
         target: "http://114.242.25.97:20047/api",
         changeOrigin: true,
         rewrite: path => path.replace(/^\/v1/, "")
-      }
+      },
+
     }
   }
 });

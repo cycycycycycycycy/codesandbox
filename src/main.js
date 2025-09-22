@@ -3,9 +3,13 @@ import '@/assets/css/style.css'
 import App from './App.vue'
 const app = createApp(App);
 // 创建vue实例
-app.use(router);
 import router from '@/router';
+app.use(router);
 
+import 'highlight.js/styles/atom-one-dark.css';
+import 'highlight.js/lib/common';
+import hljsVuePlugin from '@highlightjs/vue-plugin';
+app.use(hljsVuePlugin);
 // 启用快捷css
 // import '@/assets/css/common.css'
 
