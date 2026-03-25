@@ -21,7 +21,7 @@ export default defineConfig({
       "@antv/g6": path.resolve("./node_modules/@antv/g6/dist/g6.js"),
     },
   },
-  base: "/codesandbox_pages",
+  base: "/codesandbox",
   transpileDependencies: true,
   plugins: [vue(), viteCommonjs(),
   cesium()],

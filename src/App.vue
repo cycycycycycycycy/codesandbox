@@ -12,7 +12,7 @@ import userInfo from "@/store/userInfo/userInfo.js";
 const UserInfo = userInfo();
 const myZip = new JSZip();
 // JSZipUtils.getBinaryContent("/mapjson/json.zip", function (err, data) {
-JSZipUtils.getBinaryContent("/codesandbox_pages/newJson", function (err, data) {
+JSZipUtils.getBinaryContent("/codesandbox/newJson", function (err, data) {
   if (err) {
     console.log("错了", err);
   } else {
