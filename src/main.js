@@ -37,5 +37,17 @@ import pinia from './store'
 app.use(pinia);
 
 
+import LiyaAvatarWidget from '@liyalabs/liya-3d-avatar-widget-vuejs'
+import '@liyalabs/liya-3d-avatar-widget-vuejs/style.css'
+app.use(LiyaAvatarWidget, {
+    mode: 'widget', // 悬浮小部件模式
+    baseUrl: 'https://app.liyalabs.com',
+    apiKey: 'liwhai_7ad50f07b86e85c4f7e1ff9f1dad8b973fd1f03659e44d9d', // 官网免费注册获取
+    assistantId: '0a243409-3f8d-44e9-afad-5cc2f4ab8453', // 后台创建数字人获得
+    assistantName: '智能助手',
+    locale: 'zh-CN',
+    primaryColor: '#42b983' // Vue主题
+})
+
 
 app.mount('#app')

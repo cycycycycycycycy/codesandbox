@@ -12,7 +12,12 @@ const routes = [
     component: () => import("@/views/home.vue"),
     children: []
   },
-
+  {
+    path: "/AI_Human_Iframe",
+    name: "AI_Human_Iframe",
+    component: () => import("@/views/Com/AI_Human/AI_Human.vue"),
+    children: []
+  },
 
 
 ];

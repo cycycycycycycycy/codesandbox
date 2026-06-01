@@ -76,7 +76,13 @@ export const menuConfig = [
         name: "table_merger",
         label: "表格合并插件",
         desc: "表格合并插件，支持表格合并。",
+    },
+    {
+        name: "AI_Human",
+        label: "AI数字人",
+        desc: "AI数字人组件，支持AI_Human功能。",
     }
+
 ];
 
 // 获取菜单配置
