@@ -56,10 +56,11 @@
             </svg>
             {{ propsData.nameTitle }}
           </div>
-          <!-- <div class="header-status">
-            <div class="status-dot"></div>
-            在线
-          </div> -->
+
+          <div class="header-status">
+            <!-- <div class="status-dot"></div> -->
+            内容由AI生成，仅供参考
+          </div>
         </header>
 
         <!-- 内容区 -->
@@ -948,11 +949,11 @@ onUnmounted(() => {
 }
 
 .header-status {
-  font-size: 12px;
-  color: #4caf50;
+  font-size: 10px;
   display: flex;
   align-items: center;
   gap: 4px;
+  color: #85f0ff;
 }
 .status-dot {
   width: 8px;
