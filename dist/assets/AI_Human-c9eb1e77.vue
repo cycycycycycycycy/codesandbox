@@ -868,7 +868,7 @@ onUnmounted(() => {
 
 /* ==================== 左侧区域 ==================== */
 .left-section {
-  width: 73%;
+  width: 75%;
   height: 100%;
   background: transparent;
   position: relative;
@@ -876,7 +876,6 @@ onUnmounted(() => {
   justify-content: flex-end;
   align-items: center;
   padding: 20px;
-  // padding-right: 75px;
   overflow: hidden;
 }
 
@@ -1249,7 +1248,7 @@ textarea:disabled {
 
 /* ==================== 右侧区域 ==================== */
 .right-section {
-  width: 27%;
+  width: 25%;
   height: 85%;
   background-color: transparent;
   display: flex;
