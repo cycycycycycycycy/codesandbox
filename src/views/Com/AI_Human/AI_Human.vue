@@ -479,7 +479,7 @@ const fetchAIResponse = async (query, messageIndex) => {
 
     user: "test",
   };
-  const response = await fetch("http://111.33.64.98:28088/v1/chat-messages", {
+  const response = await fetch("/zhjcApi/v1/chat-messages", {
     method: "POST",
 
     headers: {

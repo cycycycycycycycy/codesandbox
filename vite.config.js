@@ -59,7 +59,12 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: path => path.replace(/^\/v1/, "")
       },
+      "/zhjcApi": {
 
+        target: "http://192.168.1.150:28088",
+        changeOrigin: true,
+        rewrite: path => path.replace("/zhjcApi", "")
+      },
     }
   }
 });
