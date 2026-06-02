@@ -263,12 +263,20 @@ const initAvatar = () => {
   player
     ?.on(PlayerEvents.play, () => console.log("sdk event: player play"))
     .on(PlayerEvents.playing, () => console.log("sdk event: player playing"));
-
+  //test2
+  // avatarPlatform.setApiInfo({
+  //   appId: "930f2299",
+  //   apiKey: "03c19bd47b67240c78edd40744261356",
+  //   apiSecret: "NmI1NzZhZDQ4ZTNjMjQwYzhlMTljOTRl",
+  //   sceneId: "320065619460493312",
+  //   serverUrl: "wss://avatar.cn-huadong-1.xf-yun.com/v1/interact",
+  // });
+  //test
   avatarPlatform.setApiInfo({
-    appId: "930f2299",
-    apiKey: "03c19bd47b67240c78edd40744261356",
-    apiSecret: "NmI1NzZhZDQ4ZTNjMjQwYzhlMTljOTRl",
-    sceneId: "320065619460493312",
+    appId: "e9eef25a",
+    apiKey: "eba52f7ad3e9955254ab357543a098de",
+    apiSecret: "N2VlNGJmNGIwMGFhYzc4ZmRiOGNmYzc3",
+    sceneId: "319683821131927552",
     serverUrl: "wss://avatar.cn-huadong-1.xf-yun.com/v1/interact",
   });
 
@@ -1324,3 +1332,4 @@ textarea:disabled {
   }
 }
 </style>
+
