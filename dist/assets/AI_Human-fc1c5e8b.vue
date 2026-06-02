@@ -23,9 +23,8 @@
         </div>
         <h3 class="volume-title">请打开您的设备音量</h3>
         <p class="volume-desc">
-          数字人将为您进行语音播报，开启音量获得最佳体验
+          数字人将为您进行语音播报，开启音量可获得最佳体验
         </p>
-
         <button class="volume-confirm-btn" @click="handleVolumeConfirm">
           知道了
         </button>
@@ -118,9 +117,7 @@
               class="message-row"
               :class="msg.role"
             >
-              <div class="avatar" :class="msg.role" v-if="msg.role === 'ai'">
-                <img style="width: 100%" src="./img/zhai.gif" alt="" />
-              </div>
+              <div class="avatar" :class="msg.role"></div>
               <div
                 class="bubble"
                 :class="{
@@ -240,7 +237,6 @@ const mockLoadSDK = () => {
   setTimeout(() => {
     console.log("SDK Mock Loaded");
     avatarSDKReady.value = true;
-    avatarPlatform.writeCmd("action", "A_RH_sit_hello_O");
   }, 500);
 };
 let avatarPlatform = null;
@@ -275,7 +271,7 @@ const initAvatar = () => {
 
   avatarPlatform.setGlobalParams({
     stream: { protocol: "xrtc", alpha: 1 },
-    avatar: { avatar_id: "111188001" },
+    avatar: { avatar_id: "111283001" },
     tts: { vcn: "x4_yuexiaoni_assist" },
   });
 
@@ -297,15 +293,8 @@ const triggerAvatarSpeak = (text) => {
       nlp: false,
       tts: { volume: 100 },
     });
-    setTimeout(() => {
-      avatarPlatform.writeCmd("action", "A_RH_emphasize2_O");
-      setTimeout(() => {
-        avatarPlatform.writeCmd("action", "A_RH_sit_introduced_O");
-        setTimeout(() => {
-          avatarPlatform.writeCmd("action", "A_LRH_emphasize2_twice_O");
-        }, 2000);
-      }, 2000);
-    }, 1000);
+
+    avatarPlatform.writeCmd("action", "A_RH_Show_rightup_O");
   } else {
     console.log(`[数字人模拟播报]: ${text}`);
   }
@@ -533,14 +522,18 @@ onUnmounted(() => {
   width: 80px;
   height: 80px;
   margin: 0 auto 24px;
-
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-light)
+  );
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
   box-shadow: 0 8px 24px rgba(106, 27, 154, 0.3);
-  background: linear-gradient(to right, #0843a8, #4dd5a5);
+
   svg {
     width: 40px;
     height: 40px;
@@ -564,7 +557,11 @@ onUnmounted(() => {
 .volume-confirm-btn {
   width: 100%;
   padding: 14px 24px;
-  background: linear-gradient(to right, #0843a8, #4dd5a5);
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-light)
+  );
   color: white;
   border: none;
   border-radius: 12px;
@@ -654,7 +651,7 @@ onUnmounted(() => {
   --chat-bg-user: linear-gradient(135deg, #6200ea, #b388ff);
   --chat-text-user: #ffffff;
 
-  --chat-bg-ai: #323553; /* 深紫色偏灰 */
+  --chat-bg-ai: #33334d; /* 深紫色偏灰 */
   --chat-text-ai: #e0e0e0;
 
   /* 文字颜色 */
@@ -663,7 +660,7 @@ onUnmounted(() => {
   --text-placeholder: #666;
 
   /* 背景色 */
-  --bg-chat-main: #20202f;
+  --bg-chat-main: #1a1a2e;
 
   /* 输入框 */
   --input-bg: #2d2d3a;
@@ -703,7 +700,7 @@ onUnmounted(() => {
 
 /* ==================== 左侧区域 ==================== */
 .left-section {
-  width: 75%;
+  width: 70%;
   height: 100%;
   background: transparent;
   position: relative;
@@ -769,10 +766,10 @@ onUnmounted(() => {
 .header-title {
   font-size: 18px;
   font-weight: 700;
-  color: #85f0ff;
+  color: var(--primary-dark);
 
   .app-layout.dark & {
-    color: #85f0ff;
+    color: var(--primary-light);
   }
 
   display: flex;
@@ -910,23 +907,9 @@ onUnmounted(() => {
   flex-shrink: 0;
   background-size: cover;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-  /* 你要求的边框：色值#2CCCDC，不透明度62% */
-  border: 2px solid rgba(44, 205, 220, 0.62);
-
-  overflow: hidden;
-  position: relative;
+  border: 2px solid transparent;
 }
 
-/* 叠加滤镜效果（overlay 混合模式）*/
-.avatar::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: rgba(44, 205, 220, 0.62);
-  mix-blend-mode: overlay; /* 叠加模式 */
-  pointer-events: none;
-}
 .app-layout.light .avatar.ai {
   border-color: white;
 }
@@ -935,7 +918,7 @@ onUnmounted(() => {
 }
 
 .bubble {
-  max-width: 85%;
+  max-width: 75%;
   padding: 14px 18px;
   border-radius: 20px;
   font-size: 15px;
@@ -947,7 +930,6 @@ onUnmounted(() => {
 
 .message-row.ai .bubble {
   background-color: var(--chat-bg-ai);
-
   color: var(--chat-text-ai);
   border-bottom-left-radius: 4px;
 }
@@ -1067,11 +1049,10 @@ textarea:disabled {
 
 /* ==================== 右侧区域 ==================== */
 .right-section {
-  width: 25%;
-  height: 85%;
+  width: 30%;
+  height: 100%;
   background-color: transparent;
   display: flex;
-  margin-top: 6%;
   flex-direction: column;
 }
 
