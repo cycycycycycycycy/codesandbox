@@ -128,7 +128,7 @@
                   'error-bubble': msg.isError,
                   cursor: msg.isLoading && msg.role === 'ai',
                 }"
-                v-html="msg.text.replace(/\n/g, '<br>')"
+                v-html="msg.text.replace(/\n/g, '<br>').replace(/\*/gim, '')"
               ></div>
             </div>
           </div>
