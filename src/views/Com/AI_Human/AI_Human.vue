@@ -33,7 +33,7 @@
     </div>
 
     <!-- 左侧区域：悬浮气泡聊天界面 -->
-    <div class="left-section">
+    <div class="left-section" v-if="propsData.showDeepseek === '1'">
       <!-- 背景装饰 (颜色会随主题变化) -->
       <div class="bg-decoration bg-dec-1"></div>
       <div class="bg-decoration bg-dec-2"></div>
@@ -165,7 +165,10 @@
     </div>
 
     <!-- 右侧区域：数字人播报 -->
-    <div class="right-section">
+    <div
+      class="right-section"
+      :style="{ width: propsData.showDeepseek === '1' ? '27%' : '100%' }"
+    >
       <div class="avatar-wrapper">
         <!-- 数字人实际渲染容器 -->
         <div class="wrapper" style="width: 100%; height: 100%"></div>
@@ -190,14 +193,18 @@ const propsData = ref({
   theme: "dark",
   nameTitle: "AI智能体",
   propsText: ``, // 修改默认值为空字符串，便于判断是否传入`,
+  showDeepseek: "1",
 });
 const conversation_id = ref("");
+
 if (window.name) {
   let NAME = JSON.parse(window.name);
+
   propsData.value.theme = NAME.theme || "dark";
   propsData.value.nameTitle = NAME.nameTitle || "AI智能体";
   propsData.value.propsText = NAME.propsText || "";
   conversation_id.value = NAME.conversation_id || "";
+  propsData.value.showDeepseek = NAME.showDeepseek || "1";
 }
 
 // const props = defineProps({
@@ -263,7 +270,8 @@ const initAvatar = () => {
   player
     ?.on(PlayerEvents.play, () => console.log("sdk event: player play"))
     .on(PlayerEvents.playing, () => console.log("sdk event: player playing"));
-  //test2
+
+  //正式
   // avatarPlatform.setApiInfo({
   //   appId: "930f2299",
   //   apiKey: "03c19bd47b67240c78edd40744261356",
