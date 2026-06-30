@@ -6,10 +6,34 @@
     <GrapeChat theme="dark" />   (黑色系)
     <GrapeChat propsText="这是一段需要数字人直接播报的文字" /> (直连播报模式)
   -->
-  <div :class="['app-layout', propsData.theme]">
+  <div
+    :class="['app-layout', propsData.theme]"
+    :style="{
+      background:
+        propsData.showDeepseek === '0'
+          ? 'rgba(0, 0, 0, 0)'
+          : 'rgba(0, 0, 0, 0.6)',
+    }"
+  >
     <!-- 音量提示弹窗 (新增) -->
     <div
-      v-if="showVolumePrompt"
+      v-if="showVolumePrompt && propsData.showDeepseek === '0'"
+      class="volume-prompt-overlay2"
+      @click.self="handleVolumeConfirm"
+    >
+      <div class="volume-prompt-card">
+        <h3 class="volume-title">请打开您的设备音量</h3>
+        <p class="volume-desc" style="font-size: 12px">
+          数字人将为您进行语音播报，开启音量获得最佳体验
+        </p>
+
+        <button class="volume-confirm-btn" @click="handleVolumeConfirm">
+          开始播报
+        </button>
+      </div>
+    </div>
+    <div
+      v-if="showVolumePrompt && propsData.showDeepseek === '1'"
       class="volume-prompt-overlay"
       @click.self="handleVolumeConfirm"
     >
@@ -87,27 +111,27 @@
             <div class="suggestions" v-if="!propsText">
               <div
                 class="suggestion-chip"
-                @click="handleSuggestionClick('葡萄白粉病怎么防治？')"
+                @click="handleSuggestionClick('病虫害怎么防治？')"
               >
-                🍇 葡萄白粉病怎么防治？
+                病虫害怎么防治？
               </div>
               <div
                 class="suggestion-chip"
-                @click="handleSuggestionClick('葡萄栽培如何提高产量？')"
+                @click="handleSuggestionClick('如何提高产量？')"
               >
-                🚀 如何提高亩产？
+                如何提高亩产？
               </div>
               <div
                 class="suggestion-chip"
                 @click="handleSuggestionClick('深施有机肥有什么好处？')"
               >
-                🌱 深施有机肥的好处
+                深施有机肥的好处
               </div>
               <div
                 class="suggestion-chip"
-                @click="handleSuggestionClick('葡萄采收前需要做哪些准备？')"
+                @click="handleSuggestionClick('采收前需要做哪些准备？')"
               >
-                📅 采收前准备清单
+                采收前准备清单
               </div>
             </div>
           </div>
@@ -176,6 +200,9 @@
         <div
           v-if="!avatarSDKReady && !showVolumePrompt"
           class="avatar-placeholder"
+          :style="{
+            color: theme === 'dark' ? '#fff' : '#000',
+          }"
         >
           <p>数字人正在初始化...</p>
         </div>
@@ -206,7 +233,27 @@ if (window.name) {
   conversation_id.value = NAME.conversation_id || "";
   propsData.value.showDeepseek = NAME.showDeepseek || "1";
 }
-
+const triggerAvatarSpeak = (text) => {
+  if (!text) return;
+  if (avatarPlatform) {
+    avatarPlatform.writeText(text, {
+      nlp: false,
+      tts: { volume: 100 },
+    });
+    startAvatarActions();
+  } else {
+    console.log(`[数字人模拟播报]: ${text}`);
+  }
+};
+const funList = ref({
+  triggerAvatarSpeak: triggerAvatarSpeak,
+});
+window.addEventListener("message", (event) => {
+  console.log("收到消息:", event.data);
+  if (event.data.type === "AI_human" && !showVolumePrompt.value) {
+    funList.value[event.data.method](event.data.params);
+  }
+});
 // const props = defineProps({
 //   theme: {
 //     type: String,
@@ -243,9 +290,11 @@ const mockLoadSDK = () => {
     console.log("SDK Mock Loaded");
     avatarSDKReady.value = true;
     avatarPlatform.writeCmd("action", "A_RH_sit_hello_O");
+    showVolumePrompt.value = true;
   }, 500);
 };
 let avatarPlatform = null;
+let player = null;
 const initAvatar = () => {
   // 防止重复初始化
   if (avatarPlatform) return;
@@ -266,7 +315,7 @@ const initAvatar = () => {
     )
     .on(SDKEvents.error, (error) => console.error("sdk event: error", error));
 
-  const player = avatarPlatform.player || avatarPlatform.createPlayer();
+  player = avatarPlatform.player || avatarPlatform.createPlayer();
   player
     ?.on(PlayerEvents.play, () => console.log("sdk event: player play"))
     .on(PlayerEvents.playing, () => console.log("sdk event: player playing"));
@@ -310,48 +359,48 @@ const avatarActions = [
   "A_RH_sit_introduced_O",
   "A_LRH_emphasize2_twice_O",
 ];
-let actionTimer = null;
-let currentActionIndex = 0;
+let actionTimer = ref(null);
+let currentActionIndex = ref(0);
 
 const startAvatarActions = () => {
   stopAvatarActions();
-  currentActionIndex = 0;
-  avatarPlatform.writeCmd("action", avatarActions[currentActionIndex]);
-  currentActionIndex = (currentActionIndex + 1) % avatarActions.length;
-  actionTimer = setInterval(() => {
+  currentActionIndex.value = 0;
+  avatarPlatform.writeCmd("action", avatarActions[currentActionIndex.value]);
+  if (currentActionIndex.value === avatarActions.length - 1) {
+    currentActionIndex.value = 0;
+  } else {
+    currentActionIndex.value++;
+  }
+
+  actionTimer.value = setInterval(() => {
     if (avatarPlatform) {
-      avatarPlatform.writeCmd("action", avatarActions[currentActionIndex]);
-      currentActionIndex = (currentActionIndex + 1) % avatarActions.length;
+      avatarPlatform.writeCmd(
+        "action",
+        avatarActions[currentActionIndex.value]
+      );
+      if (currentActionIndex.value === avatarActions.length - 1) {
+        currentActionIndex.value = 0;
+      } else {
+        currentActionIndex.value++;
+      }
     }
-  }, 2000);
+  }, 3000);
 };
 
 const stopAvatarActions = () => {
-  if (actionTimer) {
-    clearInterval(actionTimer);
-    actionTimer = null;
+  if (actionTimer.value) {
+    clearInterval(actionTimer.value);
+    actionTimer.value = null;
+    console.log("actionTimer.value", actionTimer.value);
   }
-  currentActionIndex = 0;
-};
-
-const triggerAvatarSpeak = (text) => {
-  if (!text) return;
-  if (avatarPlatform) {
-    avatarPlatform.writeText(text, {
-      nlp: false,
-      tts: { volume: 100 },
-    });
-    startAvatarActions();
-  } else {
-    console.log(`[数字人模拟播报]: ${text}`);
-  }
+  currentActionIndex.value = 0;
 };
 
 // ==================== 新增：音量提示处理方法 ====================
 const handleVolumeConfirm = () => {
   showVolumePrompt.value = false;
   hasInteracted.value = true;
-
+  player.resume();
   // 非首次进入，直接初始化数字人
 
   // 检查是否有 propsText，如果有则进入直连播报模式
@@ -663,8 +712,10 @@ onMounted(() => {
 
   if (!promptShown) {
     // 首次进入，显示音量提示
-    showVolumePrompt.value = true;
-    initAvatar();
+
+    setTimeout(() => {
+      initAvatar();
+    }, 20);
   } else {
   }
 });
@@ -696,7 +747,20 @@ onUnmounted(() => {
   z-index: 1000;
   animation: fadeIn 0.3s ease;
 }
-
+.volume-prompt-overlay2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  // backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
 .volume-prompt-card {
   background: var(--glass-bg);
   border-radius: 24px;

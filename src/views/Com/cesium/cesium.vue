@@ -475,6 +475,8 @@ const initCesium = () => {
       );
     }
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+  // 加载 WMTS 图层
 };
 
 // 组件挂载时初始化

@@ -81,7 +81,13 @@ export const menuConfig = [
         name: "AI_Human",
         label: "AI数字人",
         desc: "AI数字人组件，支持AI_Human功能。",
-    }
+    },
+    {
+        name: "univer",
+        label: "在线pdf组件",
+        desc: "在线pdf组件，支持在线查看文件。",
+    },
+
 
 ];
 
