@@ -320,20 +320,12 @@ const initAvatar = () => {
     ?.on(PlayerEvents.play, () => console.log("sdk event: player play"))
     .on(PlayerEvents.playing, () => console.log("sdk event: player playing"));
 
-  //正式
-  // avatarPlatform.setApiInfo({
-  //   appId: "930f2299",
-  //   apiKey: "03c19bd47b67240c78edd40744261356",
-  //   apiSecret: "NmI1NzZhZDQ4ZTNjMjQwYzhlMTljOTRl",
-  //   sceneId: "320065619460493312",
-  //   serverUrl: "wss://avatar.cn-huadong-1.xf-yun.com/v1/interact",
-  // });
   //test
   avatarPlatform.setApiInfo({
-    appId: "e9eef25a",
-    apiKey: "eba52f7ad3e9955254ab357543a098de",
-    apiSecret: "N2VlNGJmNGIwMGFhYzc4ZmRiOGNmYzc3",
-    sceneId: "319683821131927552",
+    appId: "187f6a1a",
+    apiKey: "3fa3567ac25a03b509e0561758916cda",
+    apiSecret: "OTgyYTdkZmIxYTZmYWQ2ODE1OTg5OTQx",
+    sceneId: "330640640671092736",
     serverUrl: "wss://avatar.cn-huadong-1.xf-yun.com/v1/interact",
   });
 
