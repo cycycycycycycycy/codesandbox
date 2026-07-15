@@ -29,7 +29,11 @@ export default defineConfig({
     exclude: ['cesium']
   },
   define: {
-    "process.env": process.env
+    'process.env': JSON.stringify({
+      NODE_ENV: process.env.NODE_ENV,
+      // 只添加你明确需要的前端环境变量，不要多写
+      // VITE_API_BASE_URL: process.env.VITE_API_BASE_URL
+    })
   },
   resolve: {
     // Vite路径别名配置
@@ -55,10 +59,12 @@ export default defineConfig({
       },
       "/v1": {
         // 后台地址
-        target: "http://114.242.25.97:20047/api",
+        // target: "http://114.242.25.97:20047/api",
+        target: 'http://192.168.1.129:7890/crop-info-platform',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/v1/, "")
       },
+
       "/zhjcApi": {
 
         target: "http://192.168.1.150:28088",

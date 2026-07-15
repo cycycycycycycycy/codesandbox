@@ -18,7 +18,12 @@ const routes = [
     component: () => import("@/views/Com/AI_Human/AI_Human.vue"),
     children: []
   },
-
+  {
+    path: "/univerOpen",
+    name: "univerOpen",
+    component: () => import("@/views/Com/univer/univer.vue"),
+    children: []
+  },
 
 ];
 const router = createRouter({
