@@ -6,21 +6,15 @@
     <GrapeChat theme="dark" />   (黑色系)
     <GrapeChat propsText="这是一段需要数字人直接播报的文字" /> (直连播报模式)
   -->
-  <div
-    :class="['app-layout', propsData.theme]"
-    :style="{
-      background:
-        propsData.showDeepseek === '0'
-          ? 'rgba(0, 0, 0, 0)'
-          : 'rgba(0, 0, 0, 0.6)',
-    }"
-  >
+  <div :class="['app-layout', propsData.theme]" :style="{
+    background:
+      propsData.showDeepseek === '0'
+        ? 'rgba(0, 0, 0, 0)'
+        : 'rgba(0, 0, 0, 0.6)',
+  }">
     <!-- 音量提示弹窗 (新增) -->
-    <div
-      v-if="showVolumePrompt && propsData.showDeepseek === '0'"
-      class="volume-prompt-overlay2"
-      @click.self="handleVolumeConfirm"
-    >
+    <div v-if="showVolumePrompt && propsData.showDeepseek === '0'" class="volume-prompt-overlay2"
+      @click.self="handleVolumeConfirm">
       <div class="volume-prompt-card">
         <h3 class="volume-title">请打开您的设备音量</h3>
         <p class="volume-desc" style="font-size: 12px">
@@ -32,17 +26,13 @@
         </button>
       </div>
     </div>
-    <div
-      v-if="showVolumePrompt && propsData.showDeepseek === '1'"
-      class="volume-prompt-overlay"
-      @click.self="handleVolumeConfirm"
-    >
+    <div v-if="showVolumePrompt && propsData.showDeepseek === '1'" class="volume-prompt-overlay"
+      @click.self="handleVolumeConfirm">
       <div class="volume-prompt-card">
         <div class="volume-icon">
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path
-              d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"
-            />
+              d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
           </svg>
         </div>
         <h3 class="volume-title">请打开您的设备音量</h3>
@@ -69,14 +59,10 @@
           <div class="header-title">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5.5-2.5l7.51-3.22-7.52-3.22 7.52-3.22-7.51-3.22L12 17l-5.5-2.5z"
-              />
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5.5-2.5l7.51-3.22-7.52-3.22 7.52-3.22-7.51-3.22L12 17l-5.5-2.5z" />
+              <path d="M12 22c4.97 0 9-4.03 9-9h-2c0 3.87-3.13 7-7 7s-7-3.13-7-7H3c0 4.97 4.03 9 9 9z" />
               <path
-                d="M12 22c4.97 0 9-4.03 9-9h-2c0 3.87-3.13 7-7 7s-7-3.13-7-7H3c0 4.97 4.03 9 9 9z"
-              />
-              <path
-                d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"
-              />
+                d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" />
             </svg>
             {{ propsData.nameTitle }}
           </div>
@@ -91,11 +77,7 @@
         <main id="main-scroll" class="chat-main">
           <!-- 欢迎界面 -->
           <!-- 如果有 propsText (直连模式)，则不显示欢迎界面 -->
-          <div
-            id="welcome-screen"
-            v-show="!showChat && !propsText"
-            class="welcome-screen"
-          >
+          <div id="welcome-screen" v-show="!showChat && !propsText" class="welcome-screen">
             <div class="welcome-avatar">
               <img style="width: 100%" src="./img/zhai.gif" alt="" />
               <!-- <svg viewBox="0 0 24 24">
@@ -109,28 +91,16 @@
 
             <!-- 直连模式下不显示建议卡片 -->
             <div class="suggestions" v-if="!propsText">
-              <div
-                class="suggestion-chip"
-                @click="handleSuggestionClick('病虫害怎么防治？')"
-              >
+              <div class="suggestion-chip" @click="handleSuggestionClick('病虫害怎么防治？')">
                 病虫害怎么防治？
               </div>
-              <div
-                class="suggestion-chip"
-                @click="handleSuggestionClick('如何提高产量？')"
-              >
+              <div class="suggestion-chip" @click="handleSuggestionClick('如何提高产量？')">
                 如何提高亩产？
               </div>
-              <div
-                class="suggestion-chip"
-                @click="handleSuggestionClick('深施有机肥有什么好处？')"
-              >
+              <div class="suggestion-chip" @click="handleSuggestionClick('深施有机肥有什么好处？')">
                 深施有机肥的好处
               </div>
-              <div
-                class="suggestion-chip"
-                @click="handleSuggestionClick('采收前需要做哪些准备？')"
-              >
+              <div class="suggestion-chip" @click="handleSuggestionClick('采收前需要做哪些准备？')">
                 采收前准备清单
               </div>
             </div>
@@ -138,42 +108,24 @@
 
           <!-- 聊天消息列表 -->
           <div id="chat-list" v-show="showChat || propsText" class="chat-list">
-            <div
-              v-for="(msg, index) in messages"
-              :key="index"
-              class="message-row"
-              :class="msg.role"
-            >
+            <div v-for="(msg, index) in messages" :key="index" class="message-row" :class="msg.role">
               <div class="avatar" :class="msg.role" v-if="msg.role === 'ai'">
                 <img style="width: 100%" src="./img/zhai.gif" alt="" />
               </div>
-              <div
-                class="bubble"
-                :class="{
-                  'error-bubble': msg.isError,
-                  cursor: msg.isLoading && msg.role === 'ai',
-                }"
-                v-html="msg.text.replace(/\n/g, '<br>').replace(/\*/gim, '')"
-              ></div>
+              <div class="bubble" :class="{
+                'error-bubble': msg.isError,
+                cursor: msg.isLoading && msg.role === 'ai',
+              }" v-html="msg.text.replace(/\n/g, '<br>').replace(/\*/gim, '')"></div>
             </div>
           </div>
         </main>
 
         <!-- 底部输入区 -->
         <!-- 如果有 propsText，则禁用输入框，不提供问答服务 -->
-        <div
-          class="input-area-container"
-          :class="{ 'disabled-mode': !!propsText }"
-        >
+        <div class="input-area-container" :class="{ 'disabled-mode': !!propsText }">
           <div class="input-wrapper">
-            <textarea
-              v-model="userInput"
-              rows="1"
-              :placeholder="'输入您的问题...'"
-              @input="autoResizeTextarea"
-              @keydown="handleKeydown"
-              ref="textareaRef"
-            ></textarea>
+            <textarea v-model="userInput" rows="1" :placeholder="'输入您的问题...'" @input="autoResizeTextarea"
+              @keydown="handleKeydown" ref="textareaRef"></textarea>
 
             <button id="send-btn" class="send-btn" @click="toggleSend">
               <svg id="icon-send" v-if="!isGenerating" viewBox="0 0 24 24">
@@ -189,21 +141,14 @@
     </div>
 
     <!-- 右侧区域：数字人播报 -->
-    <div
-      class="right-section"
-      :style="{ width: propsData.showDeepseek === '1' ? '27%' : '100%' }"
-    >
+    <div class="right-section" :style="{ width: propsData.showDeepseek === '1' ? '27%' : '100%' }">
       <div class="avatar-wrapper">
         <!-- 数字人实际渲染容器 -->
         <div class="wrapper" style="width: 100%; height: 100%"></div>
         <!-- 如果SDK未加载显示的占位 -->
-        <div
-          v-if="!avatarSDKReady && !showVolumePrompt"
-          class="avatar-placeholder"
-          :style="{
-            color: theme === 'dark' ? '#fff' : '#000',
-          }"
-        >
+        <div v-if="!avatarSDKReady && !showVolumePrompt" class="avatar-placeholder" :style="{
+          color: theme === 'dark' ? '#fff' : '#000',
+        }">
           <p>数字人正在初始化...</p>
         </div>
       </div>
@@ -322,10 +267,10 @@ const initAvatar = () => {
 
   //test
   avatarPlatform.setApiInfo({
-    appId: "187f6a1a",
-    apiKey: "3fa3567ac25a03b509e0561758916cda",
-    apiSecret: "OTgyYTdkZmIxYTZmYWQ2ODE1OTg5OTQx",
-    sceneId: "330640640671092736",
+    appId: "404e04e0",
+    apiKey: "a47807e8abdd03ccc4b126962e653c8b",
+    apiSecret: "OWJkM2Y4NjI3Mzg0NGM3MTUyNjc3YTU0",
+    sceneId: "358541725389688832",
     serverUrl: "wss://avatar.cn-huadong-1.xf-yun.com/v1/interact",
   });
 
@@ -666,7 +611,7 @@ function processSSEBuffer(buffer) {
         const content = chunkText.answer || chunkText.content || "";
         processChunk(content);
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 }
 function parseSSEMessages(buffer) {
@@ -739,6 +684,7 @@ onUnmounted(() => {
   z-index: 1000;
   animation: fadeIn 0.3s ease;
 }
+
 .volume-prompt-overlay2 {
   position: fixed;
   top: 0;
@@ -753,6 +699,7 @@ onUnmounted(() => {
   z-index: 1000;
   animation: fadeIn 0.3s ease;
 }
+
 .volume-prompt-card {
   background: var(--glass-bg);
   border-radius: 24px;
@@ -778,6 +725,7 @@ onUnmounted(() => {
   color: white;
   box-shadow: 0 8px 24px rgba(106, 27, 154, 0.3);
   background: linear-gradient(to right, #0843a8, #4dd5a5);
+
   svg {
     width: 40px;
     height: 40px;
@@ -838,11 +786,9 @@ onUnmounted(() => {
   --header-bg: rgba(255, 255, 255, 0.6);
   --header-border: rgba(0, 0, 0, 0.05);
 
-  --chat-bg-user: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--primary-light)
-  );
+  --chat-bg-user: linear-gradient(135deg,
+      var(--primary-color),
+      var(--primary-light));
   --chat-text-user: #ffffff;
 
   --chat-bg-ai: #f3f0f7;
@@ -892,7 +838,8 @@ onUnmounted(() => {
   --chat-bg-user: linear-gradient(to right, #0843a8, #4dd5a5);
   --chat-text-user: #ffffff;
 
-  --chat-bg-ai: #323553; /* 深紫色偏灰 */
+  --chat-bg-ai: #323553;
+  /* 深紫色偏灰 */
   --chat-text-ai: #e0e0e0;
 
   /* 文字颜色 */
@@ -960,6 +907,7 @@ onUnmounted(() => {
   z-index: 0;
   opacity: 0.4;
 }
+
 .bg-dec-1 {
   width: 400px;
   height: 400px;
@@ -968,6 +916,7 @@ onUnmounted(() => {
   top: -100px;
   left: -100px;
 }
+
 .bg-dec-2 {
   width: 300px;
   height: 300px;
@@ -1027,6 +976,7 @@ onUnmounted(() => {
   gap: 4px;
   color: #85f0ff;
 }
+
 .status-dot {
   width: 8px;
   height: 8px;
@@ -1049,6 +999,7 @@ onUnmounted(() => {
 .chat-main::-webkit-scrollbar {
   width: 6px;
 }
+
 .chat-main::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-thumb);
   border-radius: 3px;
@@ -1078,14 +1029,17 @@ onUnmounted(() => {
   overflow: hidden;
   position: relative;
 }
+
 .welcome-avatar::after {
   content: "";
   position: absolute;
   inset: 0;
   background-color: rgba(44, 205, 220, 0.62);
-  mix-blend-mode: overlay; /* 叠加模式 */
+  mix-blend-mode: overlay;
+  /* 叠加模式 */
   pointer-events: none;
 }
+
 .welcome-avatar svg {
   width: 60px;
   height: 60px;
@@ -1098,6 +1052,7 @@ onUnmounted(() => {
   color: var(--text-main);
   margin-bottom: 8px;
 }
+
 .intro-desc {
   font-size: 15px;
   color: var(--text-sub);
@@ -1174,12 +1129,15 @@ onUnmounted(() => {
   position: absolute;
   inset: 0;
   background-color: rgba(44, 205, 220, 0.62);
-  mix-blend-mode: overlay; /* 叠加模式 */
+  mix-blend-mode: overlay;
+  /* 叠加模式 */
   pointer-events: none;
 }
+
 .app-layout.light .avatar.ai {
   border-color: white;
 }
+
 .app-layout.dark .avatar.ai {
   border-color: #444;
 }
@@ -1229,6 +1187,7 @@ onUnmounted(() => {
 
   z-index: 20;
   background-color: #20202f;
+
   // 直连模式下的输入框容器样式调整
   &.disabled-mode {
     opacity: 0.6;
@@ -1365,35 +1324,41 @@ textarea:disabled {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
+
 @keyframes slideUp {
   from {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 @keyframes blink {
   50% {
     opacity: 0;
   }
 }
+
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
   }
+
   70% {
     box-shadow: 0 0 0 6px rgba(76, 175, 80, 0);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
   }
 }
 </style>
-
